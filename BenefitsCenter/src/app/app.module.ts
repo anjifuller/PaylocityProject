@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { EmployeeBenefitCostService } from './services/employee-benefit-cost.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { EmployeeComponent } from './employee/employee.component';
       { path: 'fetch-data', component: FetchDataComponent },
     ])
   ],
-  providers: [],
+  providers: [EmployeeBenefitCostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
