@@ -7,9 +7,11 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { PreviewBenefitsCostComponent } from './preview-benefits-cost/preview-benefits-cost.component';
 import { EmployeeComponent } from './employee/employee.component';
+
 import { EmployeeBenefitCostService } from './services/employee-benefit-cost.service';
+import { EmployeeBenefitCostFormService } from './services/employee-benefit-cost-form.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { EmployeeBenefitCostService } from './services/employee-benefit-cost.ser
     NavMenuComponent,
     HomeComponent,
     EmployeeComponent,
-    FetchDataComponent
+    PreviewBenefitsCostComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,10 +28,10 @@ import { EmployeeBenefitCostService } from './services/employee-benefit-cost.ser
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'employee', component: EmployeeComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'preview-benefits-cost', component: PreviewBenefitsCostComponent },
     ])
   ],
-  providers: [EmployeeBenefitCostService],
+  providers: [EmployeeBenefitCostService, EmployeeBenefitCostFormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

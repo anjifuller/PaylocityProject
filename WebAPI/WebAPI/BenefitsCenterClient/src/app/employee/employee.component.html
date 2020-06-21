@@ -39,17 +39,17 @@
             <label for="state">State</label>
             <select class="form-control" id="state" [(ngModel)]="employee.address.state">
               <option selected value="0">Choose...</option>
-              <option>...</option>
+              <option *ngFor="let key of statesOptions" [value]="key" [label]="stateEmum[key]"></option>
             </select>
           </div>
           <div class="form-group col-md-2">
             <label for="zip">Zip</label>
-            <input type="text" class="form-control" id="zip" [(ngModel)]="employee.address.zipCode">
+            <input type="text" class="form-control" id="zip" [(ngModel)]="employee.address.zipCode" pattern="/^\d+$/">
           </div>
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="ssn">SSN</label>
-              <input type="password" class="form-control" id="ssn" [(ngModel)]="employee.ssn">
+              <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.ssn">
             </div>
             <div class="form-group col-md-4">
               <label for="hireDate">Hire Date</label>
@@ -57,7 +57,7 @@
             </div>
             <div class="form-group col-md-4">
               <label for="salary">Salary</label>
-              <input type="input" class="form-control" id="salary" [(ngModel)]="employee.salary">
+              <input type="text" class="form-control" id="salary" [(ngModel)]="employee.salary">
               <!-- pipe salary currency -->
             </div>
           </div>
@@ -84,7 +84,7 @@
           </div>
           <div class="form-group col-md-4">
             <label for="ssn">SSN</label>
-            <input type="password" class="form-control" id="ssn" [(ngModel)]="employee.spouse.ssn">
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.spouse.ssn">
           </div>
         </div>
       </div>
@@ -116,13 +116,13 @@
             <input type="text" id="lastName" class="form-control" [(ngModel)]="dependent.lastName">
           </div>
           <div class="form-group col-md-3">
-            <input type="password" class="form-control" id="ssn" [(ngModel)]="dependent.ssn">
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="dependent.ssn">
           </div>
           <div class="form-group col-md-2">
             <div class="form-control button-group">
-              <button *ngIf="isLast" type="button" class="glyphicon glyphicon-plus-sign icon-button"
+              <button *ngIf="isLast" type="button" class="glyphicon glyphicon-plus-sign icon-button" title="Add Dependent"
                 (click)="addDependent()"></button>
-              <button id="btn" type="button" class="glyphicon glyphicon-trash icon-button"
+              <button id="btn" type="button" class="glyphicon glyphicon-trash icon-button" title="Remove Dependent"
                 (click)="removeDependent(i)"></button>
             </div>
           </div>
@@ -132,5 +132,5 @@
   </div>
 </div>
 <div class="pull-right">
-  <button class="btn btn-primary btn-sm" (click)="previewCost()">Preveiw Benefits Cost</button>
+  <button class="btn btn-primary btn-sm" (click)="previewCostClick()">Preview Benefits Cost</button>
 </div>

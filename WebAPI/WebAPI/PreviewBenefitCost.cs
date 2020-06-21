@@ -87,7 +87,7 @@ namespace Service
         {
             decimal discount = 0;
 
-            if (person.FirstName.StartsWith("A"))
+            if (person.FirstName.ToUpper().StartsWith("A") || person.LastName.ToUpper().StartsWith("A"))
             {
                 discount = 0.10m;
             }

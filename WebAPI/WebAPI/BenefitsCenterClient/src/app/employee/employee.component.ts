@@ -1,34 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { Person } from '../models/person.model';
-import { CostPreviewContract } from '../models/cost-preview.model';
-import { EmployeeBenefitCostService } from '../services/employee-benefit-cost.service';
-import { first } from 'rxjs/operators';
+import { StatesType } from '../models/states.enum';
+import { EmployeeBenefitCostFormService } from '../services/employee-benefit-cost-form.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-employee-component',
     templateUrl: './employee.component.html',
     styleUrls: ['./employee.component.scss']
 })
-export class EmployeeComponent {
+export class EmployeeComponent implements OnInit {
     currentCount = 0;
     spouseTitle = 'Add Spouse';
     dependentTitle = 'Add Dependent';
     employee = new Employee();
-    costPreview: CostPreviewContract;
+    stateEmum = StatesType;
+    statesOptions = [];
 
-    constructor(private benefitCostService: EmployeeBenefitCostService) { }
+    constructor(private formService: EmployeeBenefitCostFormService,
+                private router: Router) { }
 
-    public previewCost() {
-        this.benefitCostService.previewCost(this.employee)
-            .pipe(first())
-            .subscribe(result => {
-                this.costPreview = result;
-                console.log(result);
-            });
+    ngOnInit() {
+        this.employee = this.formService.employee ? this.formService.employee : new Employee();
+        this.statesOptions = Object.keys(this.stateEmum);
     }
 
-    public addSpouse() {
+    addSpouse() {
         this.cleanUpObjects();
 
         if (!this.employee.spouse) {
@@ -37,17 +35,17 @@ export class EmployeeComponent {
         }
     }
 
-    public openDependents() {
+    openDependents() {
         if (this.employee.dependents && this.employee.dependents.length === 0) {
-                this.dependentTitle = 'Dependents';
             this.addDependent();
         } else {
             this.cleanUpObjects();
         }
+        this.dependentTitle = 'Dependents';
 
     }
 
-    public addDependent() {
+    addDependent() {
         this.cleanUpObjects();
 
         if (this.employee.dependents) {
@@ -59,20 +57,24 @@ export class EmployeeComponent {
         }
     }
 
-    public removeDependent(index) {
+    removeDependent(index) {
         this.employee.dependents.splice(index, 1);
     }
 
-    public cleanUpObjects() {
+    cleanUpObjects() {
         if (this.employee.spouse && this.employee.spouse.isNull()) {
             this.spouseTitle = 'Add Spouse';
             this.employee.spouse = null;
         }
         if (this.employee.dependents && this.employee.dependents[0]) {
-            if (this.employee.dependents[0].isNull) {
+            if (this.employee.dependents[0].isNull()) {
                 this.dependentTitle = 'Add Dependents';
             }
         }
+    }
 
+    previewCostClick() {
+        this.formService.employee = this.employee;
+        this.router.navigateByUrl('preview-benefits-cost');
     }
 }

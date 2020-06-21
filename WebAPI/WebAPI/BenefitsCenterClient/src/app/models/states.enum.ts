@@ -1,4 +1,4 @@
-export enum States {
+export enum StatesType {
     AL = 'Alabama',
     AK = 'Alaska',
     AS = 'American Samoa',
