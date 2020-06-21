@@ -74,7 +74,7 @@ namespace Service
 
             foreach (Person dependent in dependents)
             {
-                decimal cost = 1000m;
+                decimal cost = 500m;
                 decimal discount = GetDiscountPercentage(dependent);
 
                 total += CalculateTotal(cost, discount);

@@ -1,7 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
 .btn-primary {
-    color: #323e48;
-    background-color: #ff8f1c;
-    border-color: #ff8f1c;
-  }
+    color: #323e48 !important;
+    background-color: #ff8f1c !important;
+    border-color: #ff8f1c !important;
+    font-weight: bold !important;
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+}
+    
+.ng-invalid:not(form)  {
+    border-left: 5px solid #a94442; /* red */
+}

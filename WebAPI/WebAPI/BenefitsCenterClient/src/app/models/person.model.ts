@@ -4,7 +4,15 @@
     lastName: string;
     ssn: string;
 
-    public isNull(): boolean {
+    public isEmpty(): boolean {
         return  !(this.firstName || this.lastName || this.ssn);
+    }
+
+    public isValid(): boolean {
+        if (this.firstName && this.lastName) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

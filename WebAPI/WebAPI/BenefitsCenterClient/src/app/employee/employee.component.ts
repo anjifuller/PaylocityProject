@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
-import { Person } from '../models/person.model';
 import { StatesType } from '../models/states.enum';
 import { EmployeeBenefitCostFormService } from '../services/employee-benefit-cost-form.service';
 import { Router } from '@angular/router';
@@ -11,70 +10,80 @@ import { Router } from '@angular/router';
     styleUrls: ['./employee.component.scss']
 })
 export class EmployeeComponent implements OnInit {
-    currentCount = 0;
-    spouseTitle = 'Add Spouse';
-    dependentTitle = 'Add Dependent';
-    employee = new Employee();
+    employee: Employee;
+    spouseTitle;
+    dependentTitle;
+    formIsValid = true;
     stateEmum = StatesType;
     statesOptions = [];
 
     constructor(private formService: EmployeeBenefitCostFormService,
-                private router: Router) { }
+        private router: Router) { }
 
     ngOnInit() {
         this.employee = this.formService.employee ? this.formService.employee : new Employee();
         this.statesOptions = Object.keys(this.stateEmum);
+        this.updateTitles();
+    }
+
+    updateTitles() {
+        this.spouseTitle = this.employee.hasSpouse() ? 'Spouse' : 'Add Spouse';
+        this.dependentTitle = this.employee.hasDependents() ? 'Dependents' : 'Add Dependents';
+    }
+
+    cleanUpObjects() {
+        if (this.employee.spouse && this.employee.spouse.isEmpty()) {
+            this.employee.spouse = null;
+        }
+
+        if (!this.employee.hasDependents()) {
+            this.employee.dependents = [];
+        }
+
+        this.updateTitles();
     }
 
     addSpouse() {
         this.cleanUpObjects();
-
-        if (!this.employee.spouse) {
-            this.employee.spouse = new Person();
-            this.spouseTitle = 'Spouse';
-        }
+        this.employee.createSpouse();
     }
 
     openDependents() {
-        if (this.employee.dependents && this.employee.dependents.length === 0) {
-            this.addDependent();
-        } else {
-            this.cleanUpObjects();
+        this.cleanUpObjects();
+        if (this.employee.dependents.length === 0) {
+            this.employee.createDependent();
         }
-        this.dependentTitle = 'Dependents';
-
     }
 
     addDependent() {
-        this.cleanUpObjects();
-
-        if (this.employee.dependents) {
-            const lastLine = this.employee.dependents[this.employee.dependents.length - 1];
-            if (!lastLine || !lastLine.isNull()) {
-                const dependent = new Person();
-                this.employee.dependents.push(dependent);
-            }
-        }
+        this.employee.createDependent();
     }
 
     removeDependent(index) {
-        this.employee.dependents.splice(index, 1);
+        this.employee.removeDependent(index);
     }
 
-    cleanUpObjects() {
-        if (this.employee.spouse && this.employee.spouse.isNull()) {
-            this.spouseTitle = 'Add Spouse';
-            this.employee.spouse = null;
+    numberOnly(event): boolean {
+        const charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
         }
-        if (this.employee.dependents && this.employee.dependents[0]) {
-            if (this.employee.dependents[0].isNull()) {
-                this.dependentTitle = 'Add Dependents';
-            }
+        return true;
+    }
+
+    validateForm() {
+        if (this.employee.isEmployeeValid()) {
+            this.formIsValid = true;
+        } else {
+            this.formIsValid = false;
         }
     }
 
     previewCostClick() {
-        this.formService.employee = this.employee;
-        this.router.navigateByUrl('preview-benefits-cost');
+        this.validateForm();
+        if (this.formIsValid) {
+            this.formService.employee = this.employee;
+            this.router.navigateByUrl('preview-benefits-cost');
+        }
     }
 }

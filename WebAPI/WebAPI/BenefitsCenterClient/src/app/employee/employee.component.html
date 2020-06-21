@@ -1,4 +1,7 @@
 <h1>Add Employees</h1>
+<div *ngIf="!formIsValid" class="alert alert-danger">
+  Please enter all required fields.
+</div>
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -11,11 +14,11 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.firstName">
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.firstName" required>
           </div>
           <div class="form-group col-md-6">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.lastName">
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.lastName" required>
           </div>
         </div>
         <div class="form-row">
@@ -44,12 +47,14 @@
           </div>
           <div class="form-group col-md-2">
             <label for="zip">Zip</label>
-            <input type="text" class="form-control" id="zip" [(ngModel)]="employee.address.zipCode" pattern="/^\d+$/">
+            <input type="text" class="form-control" id="zip" [(ngModel)]="employee.address.zipCode"
+              (keypress)="numberOnly($event)">
           </div>
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="ssn">SSN</label>
-              <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.ssn">
+              <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.ssn"
+                (keypress)="numberOnly($event)">
             </div>
             <div class="form-group col-md-4">
               <label for="hireDate">Hire Date</label>
@@ -57,7 +62,8 @@
             </div>
             <div class="form-group col-md-4">
               <label for="salary">Salary</label>
-              <input type="text" class="form-control" id="salary" [(ngModel)]="employee.salary">
+              <input type="text" class="form-control" id="salary" [(ngModel)]="employee.salary"
+                (keypress)="numberOnly($event)">
               <!-- pipe salary currency -->
             </div>
           </div>
@@ -76,15 +82,16 @@
         <div *ngIf="employee.spouse" class="form-row">
           <div class="form-group col-md-4">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.spouse.firstName">
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.spouse.firstName" required>
           </div>
           <div class="form-group col-md-4">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.spouse.lastName">
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.spouse.lastName" required>
           </div>
           <div class="form-group col-md-4">
             <label for="ssn">SSN</label>
-            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.spouse.ssn">
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.spouse.ssn"
+              (keypress)="numberOnly($event)">
           </div>
         </div>
       </div>
@@ -110,18 +117,19 @@
         </div>
         <div *ngFor="let dependent of employee.dependents; last as isLast; index as i;" class="form-row">
           <div class="form-group col-md-3">
-            <input type="text" id="firstName" class="form-control" [(ngModel)]="dependent.firstName">
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="dependent.firstName" required>
           </div>
           <div class="form-group col-md-4">
-            <input type="text" id="lastName" class="form-control" [(ngModel)]="dependent.lastName">
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="dependent.lastName" required>
           </div>
           <div class="form-group col-md-3">
-            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="dependent.ssn">
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="dependent.ssn"
+              (keypress)="numberOnly($event)">
           </div>
           <div class="form-group col-md-2">
             <div class="form-control button-group">
-              <button *ngIf="isLast" type="button" class="glyphicon glyphicon-plus-sign icon-button" title="Add Dependent"
-                (click)="addDependent()"></button>
+              <button *ngIf="isLast" type="button" class="glyphicon glyphicon-plus-sign icon-button"
+                title="Add Dependent" (click)="addDependent()"></button>
               <button id="btn" type="button" class="glyphicon glyphicon-trash icon-button" title="Remove Dependent"
                 (click)="removeDependent(i)"></button>
             </div>
