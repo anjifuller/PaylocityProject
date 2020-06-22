@@ -1,0 +1,144 @@
+<h1>Add Employees</h1>
+<div *ngIf="!formIsValid" class="alert alert-danger">
+  Please enter all required fields.
+</div>
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#employee" (click)="cleanUpObjects()">Employee</a>
+      </h4>
+    </div>
+    <div id="employee" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.firstName" required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.lastName" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" [(ngModel)]="employee.address.addressLine1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="address2">Address 2</label>
+            <input type="text" class="form-control" id="address2" [(ngModel)]="employee.address.addressLine2">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" [(ngModel)]="employee.address.city">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="state">State</label>
+            <select class="form-control" id="state" [(ngModel)]="employee.address.state">
+              <option selected value="0">Choose...</option>
+              <option *ngFor="let key of statesOptions" [value]="key" [label]="stateEmum[key]"></option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" id="zip" [(ngModel)]="employee.address.zipCode"
+              (keypress)="numberOnly($event)">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="ssn">SSN</label>
+              <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.ssn"
+                (keypress)="numberOnly($event)">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="hireDate">Hire Date</label>
+              <input type="date" class="form-control" id="hireDate" [(ngModel)]="employee.hireDate">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="salary">Salary</label>
+              <input type="text" class="form-control" id="salary" [(ngModel)]="employee.salary"
+                (keypress)="numberOnly($event)">
+              <!-- pipe salary currency -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#spouse" (click)="addSpouse()">{{spouseTitle}}</a>
+      </h4>
+    </div>
+    <div id="spouse" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div *ngIf="employee.spouse" class="form-row">
+          <div class="form-group col-md-4">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.spouse.firstName" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.spouse.lastName" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="ssn">SSN</label>
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="employee.spouse.ssn"
+              (keypress)="numberOnly($event)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#dependent"
+          (click)="openDependents()">{{dependentTitle}}</a>
+      </h4>
+    </div>
+    <div id="dependent" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div *ngIf="employee.dependents" class="form-row">
+          <div class="col-md-3">
+            <label for="firstName">First Name</label></div>
+          <div class="col-md-4">
+            <label for="lastName">Last Name</label></div>
+          <div class="col-md-3">
+            <label for="ssn">SSN</label></div>
+          <div class="col-md-2"></div>
+        </div>
+        <div *ngFor="let dependent of employee.dependents; last as isLast; index as i;" class="form-row">
+          <div class="form-group col-md-3">
+            <input type="text" id="firstName" class="form-control" [(ngModel)]="dependent.firstName" required>
+          </div>
+          <div class="form-group col-md-4">
+            <input type="text" id="lastName" class="form-control" [(ngModel)]="dependent.lastName" required>
+          </div>
+          <div class="form-group col-md-3">
+            <input type="password" class="form-control" id="ssn" maxlength="9" [(ngModel)]="dependent.ssn"
+              (keypress)="numberOnly($event)">
+          </div>
+          <div class="form-group col-md-2">
+            <div class="form-control button-group">
+              <button *ngIf="isLast" type="button" class="glyphicon glyphicon-plus-sign icon-button"
+                title="Add Dependent" (click)="addDependent()"></button>
+              <button id="btn" type="button" class="glyphicon glyphicon-trash icon-button" title="Remove Dependent"
+                (click)="removeDependent(i)"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pull-right">
+  <button class="btn btn-primary btn-sm" (click)="previewCostClick()">Preview Benefits Cost</button>
+</div>

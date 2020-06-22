@@ -74,7 +74,7 @@ namespace Service
 
             foreach (Person dependent in dependents)
             {
-                decimal cost = 1000m;
+                decimal cost = 500m;
                 decimal discount = GetDiscountPercentage(dependent);
 
                 total += CalculateTotal(cost, discount);
@@ -87,7 +87,7 @@ namespace Service
         {
             decimal discount = 0;
 
-            if (person.FirstName.StartsWith("A"))
+            if (person.FirstName.ToUpper().StartsWith("A") || person.LastName.ToUpper().StartsWith("A"))
             {
                 discount = 0.10m;
             }

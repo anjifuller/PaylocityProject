@@ -1,0 +1,29 @@
+<h1>Add Employees</h1>
+<div class="form-row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Benefit Cost Preview</div>
+            <div class="panel-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">Base Salary:</div>
+                    <div class="form-group col-md-6">{{preview?.employeeSalary | currency}}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">Annual Cost of Benefits:</div>
+                    <div class="form-group col-md-6">{{preview?.costOfBenefits | currency}}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">Cost per Pay Period:</div>
+                    <div class="form-group col-md-6">{{preview?.benefitCostPerPayPeriod | currency}}</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">Estimated Pay per Period After Benefits:</div>
+                    <div class="form-group col-md-6">{{preview?.payAfterBenefitsPerPeriod | currency}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-primary btn-sm" (click)="return()">Return</button>
+        </div>
+    </div>
+</div>
