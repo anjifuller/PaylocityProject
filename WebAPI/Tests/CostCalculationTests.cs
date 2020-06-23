@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using Service;
-using Service.Models;
+using WebAPI.BusinessLogicService;
+using WebAPI.Models;
 namespace Tests
 {
     public class CostCalculationTests

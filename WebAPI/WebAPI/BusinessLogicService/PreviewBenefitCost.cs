@@ -1,9 +1,9 @@
-﻿using Service.Models;
+﻿using WebAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Service
+namespace WebAPI.BusinessLogicService
 {
     public interface IPreviewBenefitCost
     {

@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Service;
-using Service.Models;
+using WebAPI.BusinessLogicService;
+using WebAPI.Models;
 
 namespace WebAPI
 {

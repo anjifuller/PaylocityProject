@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Service.Models;
+using WebAPI.BusinessLogicService;
+using WebAPI.Models;
 
-namespace Service.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/PreviewBenefitsCost")]
     [ApiController]
