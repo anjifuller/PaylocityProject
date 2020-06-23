@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Service.Models
+namespace WebAPI.Models
 {
     public class Employee : Person
     {

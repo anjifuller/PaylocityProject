@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Service.Models
+namespace WebAPI.Models
 {
     public class Address
     {
